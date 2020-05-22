@@ -324,7 +324,72 @@ class jeu extends JFrame{
 	}
 	
 	
+	public void replace_valeurs(int[] TableauVoisin)
+	{for (int i=0;i<x;i++)
+	{
+		for (int j=0;j<x;j++)
+		{
+			if (TableauVoisin[0]!=99)
+			{	String x=Integer.toString(TableauVoisin[0]);
+				JLabel Label = new JLabel(x);
+				TabLabel[i-1][j-1]=Label;
+				grid[i-1][j-1]=TableauVoisin[0];
+			}
+			if (TableauVoisin[1]!=99)
+			{
+				String x=Integer.toString(TableauVoisin[1]);
+				JLabel Label = new JLabel(x);
+				TabLabel[i-1][j]=Label;
+				grid[i-1][j]=TableauVoisin[1];
+			}
+			if (TableauVoisin[2]!=99)
+			{
+				String x=Integer.toString(TableauVoisin[2]);
+				JLabel Label = new JLabel(x);
+				TabLabel[i-1][j+1]=Label;
+				grid[i-1][j+1]=TableauVoisin[2];
+			}
+			if (TableauVoisin[3]!=99)
+			{
+				String x=Integer.toString(TableauVoisin[3]);
+				JLabel Label = new JLabel(x);
+				TabLabel[i][j-1]=Label;
+				grid[i][j-1]=TableauVoisin[3];
+			}
+			if (TableauVoisin[4]!=99)
+			{
+				String x=Integer.toString(TableauVoisin[4]);
+				JLabel Label = new JLabel(x);
+				TabLabel[i][j+1]=Label;
+				grid[i][j+1]=TableauVoisin[4];
+			}
+			if (TableauVoisin[5]!=99)
+			{
+				String x=Integer.toString(TableauVoisin[5]);
+				JLabel Label = new JLabel(x);
+				TabLabel[i+1][j-1]=Label;
+				grid[i+1][j-1]=TableauVoisin[5];
+			}
+			if (TableauVoisin[6]!=99)
+			{
+				String x=Integer.toString(TableauVoisin[7]);
+				JLabel Label = new JLabel(x);
+				TabLabel[i+1][j]=Label;
+				grid[i+1][j]=TableauVoisin[7];
+			}
+			if (TableauVoisin[7]!=99)
+			{
+				String x=Integer.toString(TableauVoisin[7]);
+				JLabel Label = new JLabel(x);
+				TabLabel[i+1][j+1]=Label;
+				grid[i+1][j+1]=TableauVoisin[7];
+			}
+			
+		}
 	
+	}	
+		
+	}
 	
 	public void initial_Label()
 	{for (int i=0;i<x;i++)
