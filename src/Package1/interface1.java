@@ -90,7 +90,7 @@ JButton button1;
 		JButton[][] Tab;
 		jeu jeu =new jeu(10,10,10,10,new JButton[10][10], new JLabel[10][10]);
 		jeu.placer_mines();
-		jeu.initial_buttons(jeu);
+		jeu.initial_buttons(this);
 		jeu.placer_label();
 		jeu.insert_buttons(jeu);
 		jeu.remplissage_grid();
@@ -193,25 +193,27 @@ class jeu extends JFrame{
 				Tab[i][j]=Bl;
 				Bl.addActionListener(ae->
 				{
-				Tab[o][p]=null;	
+				Tab[o][p]=null;
+				eleminer_button(o,p);
 				this.dispose();
 				 if (x==10)
 					{this.dispose();
+					close(this);
 					jeu jeu =new jeu(10,10,10,10,Tab,TabLabel);
-					jeu.verif_actions();
+					
 					jeu.insert_buttons(jeu);
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}					
 				else if (x==15)
 					{this.dispose();
 					 
 					jeu jeu =new jeu(15,15,32,32,Tab,TabLabel);
-					jeu.verif_actions();
+					
 					jeu.insert_buttons(jeu);
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 				else if (x==20)
 					{this.dispose();
 					jeu jeu =new jeu(20,20,64,64,Tab,TabLabel);
-					jeu.verif_actions();
+					
 					jeu.insert_buttons(jeu);
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 					
@@ -222,45 +224,7 @@ class jeu extends JFrame{
 		
 	}
 	
-	public void verif_actions()
-	{	int i,j;
-		for (i=0;i<x;i++)
-		{
-			for (j=0;j<x;j++)
-			{	if (Tab[i][j]!=null)
-			{	final int  o=i,p=j;
-				Tab[i][j].addActionListener(ae->
-				{
-					Tab[o][p]=null;	
-					this.dispose();
-					 if (x==10)
-						{this.dispose();
-						jeu jeu =new jeu(10,10,10,10,Tab,TabLabel);
-						
-						jeu.insert_buttons(jeu);
-						jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}					
-					else if (x==15)
-						{this.dispose();
-						 
-						jeu jeu =new jeu(15,15,32,32,Tab,TabLabel);
-						
-						jeu.insert_buttons(jeu);
-						jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
-					else if (x==20)
-						{this.dispose();
-						jeu jeu =new jeu(20,20,64,64,Tab,TabLabel);
-					
-						jeu.insert_buttons(jeu);
-						jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
-						
-					}
-						);
-				
-				}
-			}
-			}
-		
-	}
+	
 				
 	public void insert_buttons(JFrame Frame)					
 	{
@@ -332,72 +296,7 @@ class jeu extends JFrame{
 	}
 	
 	
-	public void replace_valeurs(int[] TableauVoisin)
-	{for (int i=0;i<x;i++)
-	{
-		for (int j=0;j<x;j++)
-		{
-			if (TableauVoisin[0]!=99)
-			{	String x=Integer.toString(TableauVoisin[0]);
-				JLabel Label = new JLabel(x);
-				TabLabel[i-1][j-1]=Label;
-				grid[i-1][j-1]=TableauVoisin[0];
-			}
-			if (TableauVoisin[1]!=99)
-			{
-				String x=Integer.toString(TableauVoisin[1]);
-				JLabel Label = new JLabel(x);
-				TabLabel[i-1][j]=Label;
-				grid[i-1][j]=TableauVoisin[1];
-			}
-			if (TableauVoisin[2]!=99)
-			{
-				String x=Integer.toString(TableauVoisin[2]);
-				JLabel Label = new JLabel(x);
-				TabLabel[i-1][j+1]=Label;
-				grid[i-1][j+1]=TableauVoisin[2];
-			}
-			if (TableauVoisin[3]!=99)
-			{
-				String x=Integer.toString(TableauVoisin[3]);
-				JLabel Label = new JLabel(x);
-				TabLabel[i][j-1]=Label;
-				grid[i][j-1]=TableauVoisin[3];
-			}
-			if ((TableauVoisin[4]!=99)&&(j<y)&&(i<x))
-			{
-				String x=Integer.toString(TableauVoisin[4]);
-				JLabel Label = new JLabel(x);
-				TabLabel[i][j+1]=Label;
-				grid[i][j+1]=TableauVoisin[4];
-			}
-			if ((TableauVoisin[5]!=99)&&(i<x))
-			{
-				String x=Integer.toString(TableauVoisin[5]);
-				JLabel Label = new JLabel(x);
-				TabLabel[i+1][j-1]=Label;
-				grid[i+1][j-1]=TableauVoisin[5];
-			}
-			if ((TableauVoisin[6]!=99)&&(i<x))
-			{
-				String x=Integer.toString(TableauVoisin[6]);
-				JLabel Label = new JLabel(x);
-				TabLabel[i+1][j]=Label;
-				grid[i+1][j]=TableauVoisin[6];
-			}
-			if ((TableauVoisin[7]!=99)&&(i<x)&&(j<y))
-			{
-				String x=Integer.toString(TableauVoisin[7]);
-				JLabel Label = new JLabel(x);
-				TabLabel[i+1][j+1]=Label;
-				grid[i+1][j+1]=TableauVoisin[7];
-			}
-			
-		}
 	
-	}	
-		
-	}
 	
 	public void remplissage_grid()
 	{
@@ -428,7 +327,70 @@ class jeu extends JFrame{
 			TabLabel[i][j]=LB;
 	}}}
 	
-}
+	public void eleminer_button(int i,int j)
+	{	
+	if (grid[i-1][j-1]==0)
+	{
+		if (grid[i-1][j-1]==0)
+		{
+			Tab[i-1][j-1]=null;
+			eleminer_button(i-1,j-1);
+		}
+	
+		if (grid[i-1][j]==0)
+		{
+
+			Tab[i-1][j]=null;
+			eleminer_button(i-1,j);
+		}
+		if (grid[i-1][j+1]==0)
+		{
+
+			Tab[i-1][j+1]=null;
+			eleminer_button(i-1,j+1);
+		}
+		if (grid[i][j-1]==0)
+		{
+
+			Tab[i][j-1]=null;
+			eleminer_button(i,j-1);
+		}
+		if (grid[i][j+1]==0)
+		{
+
+			Tab[i][j-+1]=null;
+			eleminer_button(i,j+1);
+		}
+		if (grid[i+1][j-1]==0)
+		{
+
+			Tab[i+1][j-1]=null;
+			eleminer_button(i+1,j-1);
+		}
+		if (grid[i+1][j]==0)
+		{
+
+			Tab[i+1][j]=null;
+			eleminer_button(i+1,j);
+		}
+		if (grid[i+1][j+1]==0)
+		{
+
+			Tab[i+1][j+1]=null;
+			eleminer_button(i+1,j+1);			
+		}
+	}	
+	}
+	
+	public static void close(JFrame Frame)
+	{
+		Frame.dispose();
+	}
+	
+	
+	}
+	
+
 	
 	
 	
