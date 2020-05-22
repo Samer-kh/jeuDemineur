@@ -82,23 +82,27 @@ JButton button1;
 	button1.addActionListener(ae ->
 	{ if (b11.isSelected())
 		{this.dispose();
-		jeu jeu =new jeu(10,10,10,10);
-		jeu.initial_buttons();
-		jeu.initial_Label();
+		JButton[][] Tab;
+		jeu jeu =new jeu(10,10,10,10,new JButton[10][10], new JLabel[10][10]);
+		jeu.placer_mines();
+		jeu.initial_buttons(jeu);
+		jeu.placer_label();
 		jeu.insert_buttons(jeu);
 		jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}					
 	else if (b12.isSelected())
 		{this.dispose();
-		jeu jeu =new jeu(15,15,32,32);
-		jeu.initial_Label();
-		jeu.initial_buttons();
+		jeu jeu =new jeu(15,15,32,32,new JButton[15][15], new JLabel[15][15]);
+		jeu.placer_mines();
+		jeu.placer_label();
+		jeu.initial_buttons(jeu);
 		jeu.insert_buttons(jeu);
 		jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 	else if (b13.isSelected())
 		{this.dispose();
-		jeu jeu =new jeu(20,20,64,64);
-		jeu.initial_Label();
-		jeu.initial_buttons();
+		jeu jeu =new jeu(20,20,64,64,new JButton[20][20], new JLabel[20][20]);
+		jeu.placer_mines();
+		jeu.placer_label();
+		jeu.initial_buttons(jeu);
 		jeu.insert_buttons(jeu);
 		jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 		
@@ -139,7 +143,7 @@ class jeu extends JFrame{
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	public jeu (int x,int y ,int z,int f )
+	public jeu (int x,int y ,int z,int f,JButton[][] Tableau,JLabel[][] LabTab )
 	{
 		this.x=x;
 		this.y=y;
@@ -150,8 +154,8 @@ class jeu extends JFrame{
 		
 		int i,j;
 		grid=new int[x][y];
-		Tab=new JButton[x][y];
-		TabLabel=new JLabel[x][y];
+		Tab=Tableau;
+		TabLabel=LabTab;
 		for (i=0;i<x;i++)
 		{for(j=0;j<y;j++)
 			{
@@ -166,7 +170,7 @@ class jeu extends JFrame{
 		
 	}
 	
-	public void initial_buttons()
+	public void initial_buttons(JFrame Frame)
 	{	int i,j;
 		
 		for (i=0;i<x;i++)
@@ -184,20 +188,20 @@ class jeu extends JFrame{
 				Tab[o][p]=null;	
 				this.dispose();
 				 if (x==10)
-					{this.dispose();
-					jeu jeu =new jeu(10,10,10,10);
+					{Frame.dispose();
+					jeu jeu =new jeu(10,10,10,10,Tab,TabLabel);
 					
 					jeu.insert_buttons(jeu);
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}					
 				else if (x==15)
-					{this.dispose();
-					jeu jeu =new jeu(15,15,32,32);
+					{Frame.dispose();
+					jeu jeu =new jeu(15,15,32,32,Tab,TabLabel);
 					
 					jeu.insert_buttons(jeu);
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 				else if (x==20)
-					{this.dispose();
-					jeu jeu =new jeu(20,20,64,64);
+					{Frame.dispose();
+					jeu jeu =new jeu(20,20,64,64,Tab,TabLabel);
 				
 					jeu.insert_buttons(jeu);
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
@@ -217,7 +221,8 @@ class jeu extends JFrame{
 			{	if(Tab[i][j]!=null)
 				{Frame.add(Tab[i][j]);}
 			else
-			{Frame.add(TabLabel[i][j]);}
+			{TabLabel[i][j].setHorizontalTextPosition(JLabel.CENTER);
+			Frame.add(TabLabel[i][j]);}
 			}}
 	}
 	
@@ -232,11 +237,12 @@ class jeu extends JFrame{
 		{
 			int pos1;
 			int pos2;
-			pos1= (int)Math.round(Math.random()*x);
-			pos2= (int)Math.round(Math.random()*y);
+			pos1= (int)Math.round(Math.random()*(x-1));
+			pos2= (int)Math.round(Math.random()*(y-1));
 			if (grid[pos1][pos2]==0)
 			{
 				grid[pos1][pos2]=-1;
+				index++;
 			}
 		}
 	}
@@ -266,9 +272,10 @@ class jeu extends JFrame{
 		{ if (grid[i][j]==-1)
 		{
 			JLabel image = Placer_image_mines("img\\mine.png");
+			TabLabel[i][j]=image;
 		}
 		else
-			{JLabel Label=new JLabel("Null");
+			{JLabel Label=new JLabel("Rien");
 			TabLabel[i][j]=Label;}
 		}
 		}
