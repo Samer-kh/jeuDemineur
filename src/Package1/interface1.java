@@ -13,6 +13,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+
+
+
+import Package2.matrices;
+
 public class interface1  {
 	public static void main(String[] args)
 	{
@@ -88,6 +93,7 @@ JButton button1;
 		jeu.initial_buttons(jeu);
 		jeu.placer_label();
 		jeu.insert_buttons(jeu);
+		jeu.remplissage_grid();
 		jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}					
 	else if (b12.isSelected())
 		{this.dispose();
@@ -96,6 +102,7 @@ JButton button1;
 		jeu.placer_label();
 		jeu.initial_buttons(jeu);
 		jeu.insert_buttons(jeu);
+		jeu.remplissage_grid();
 		jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 	else if (b13.isSelected())
 		{this.dispose();
@@ -104,6 +111,7 @@ JButton button1;
 		jeu.placer_label();
 		jeu.initial_buttons(jeu);
 		jeu.insert_buttons(jeu);
+		jeu.remplissage_grid();
 		jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 		
 	});
@@ -356,28 +364,28 @@ class jeu extends JFrame{
 				TabLabel[i][j-1]=Label;
 				grid[i][j-1]=TableauVoisin[3];
 			}
-			if (TableauVoisin[4]!=99)
+			if ((TableauVoisin[4]!=99)&&(j<y)&&(i<x))
 			{
 				String x=Integer.toString(TableauVoisin[4]);
 				JLabel Label = new JLabel(x);
 				TabLabel[i][j+1]=Label;
 				grid[i][j+1]=TableauVoisin[4];
 			}
-			if (TableauVoisin[5]!=99)
+			if ((TableauVoisin[5]!=99)&&(i<x))
 			{
 				String x=Integer.toString(TableauVoisin[5]);
 				JLabel Label = new JLabel(x);
 				TabLabel[i+1][j-1]=Label;
 				grid[i+1][j-1]=TableauVoisin[5];
 			}
-			if (TableauVoisin[6]!=99)
+			if ((TableauVoisin[6]!=99)&&(i<x))
 			{
-				String x=Integer.toString(TableauVoisin[7]);
+				String x=Integer.toString(TableauVoisin[6]);
 				JLabel Label = new JLabel(x);
 				TabLabel[i+1][j]=Label;
-				grid[i+1][j]=TableauVoisin[7];
+				grid[i+1][j]=TableauVoisin[6];
 			}
-			if (TableauVoisin[7]!=99)
+			if ((TableauVoisin[7]!=99)&&(i<x)&&(j<y))
 			{
 				String x=Integer.toString(TableauVoisin[7]);
 				JLabel Label = new JLabel(x);
@@ -399,14 +407,17 @@ class jeu extends JFrame{
 			{
 				if (grid[i][j]!=-1)
 				{
-					//appel methode de chedhly 
-					replace_valeurs(TableauVoisin);
-					
-					
+					int nbVoisin=matrices.nombreadj(i,j ,x,y, grid);
+					grid[i][j]=nbVoisin;
+					String x=Integer.toString(nbVoisin);
+					JLabel Label=new JLabel(x);
+					TabLabel[i][j]=Label;
 				}
 			}
 	}
 	}
+	}
+	
 	
 	public void initial_Label()
 	{for (int i=0;i<x;i++)
