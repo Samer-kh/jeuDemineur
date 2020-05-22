@@ -188,21 +188,22 @@ class jeu extends JFrame{
 				Tab[o][p]=null;	
 				this.dispose();
 				 if (x==10)
-					{Frame.dispose();
+					{this.dispose();
 					jeu jeu =new jeu(10,10,10,10,Tab,TabLabel);
-					
+					jeu.verif_actions();
 					jeu.insert_buttons(jeu);
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}					
 				else if (x==15)
-					{Frame.dispose();
+					{this.dispose();
+					 
 					jeu jeu =new jeu(15,15,32,32,Tab,TabLabel);
-					
+					jeu.verif_actions();
 					jeu.insert_buttons(jeu);
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 				else if (x==20)
-					{Frame.dispose();
+					{this.dispose();
 					jeu jeu =new jeu(20,20,64,64,Tab,TabLabel);
-				
+					jeu.verif_actions();
 					jeu.insert_buttons(jeu);
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 					
@@ -210,6 +211,46 @@ class jeu extends JFrame{
 						);	
 			
 			}}
+		
+	}
+	
+	public void verif_actions()
+	{	int i,j;
+		for (i=0;i<x;i++)
+		{
+			for (j=0;j<x;j++)
+			{	if (Tab[i][j]!=null)
+			{	final int  o=i,p=j;
+				Tab[i][j].addActionListener(ae->
+				{
+					Tab[o][p]=null;	
+					this.dispose();
+					 if (x==10)
+						{this.dispose();
+						jeu jeu =new jeu(10,10,10,10,Tab,TabLabel);
+						
+						jeu.insert_buttons(jeu);
+						jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}					
+					else if (x==15)
+						{this.dispose();
+						 
+						jeu jeu =new jeu(15,15,32,32,Tab,TabLabel);
+						
+						jeu.insert_buttons(jeu);
+						jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
+					else if (x==20)
+						{this.dispose();
+						jeu jeu =new jeu(20,20,64,64,Tab,TabLabel);
+					
+						jeu.insert_buttons(jeu);
+						jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
+						
+					}
+						);
+				
+				}
+			}
+			}
 		
 	}
 				
