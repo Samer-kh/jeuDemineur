@@ -179,7 +179,7 @@ class jeu extends JFrame{
 			{	final int o=i,p=j; 
 				ButtonGroup  Gp=new ButtonGroup();
 				JButton Bl;
-				Bl=new JButton("click");
+				Bl=new JButton("     ");
 				
 				Gp.add(Bl);
 				Tab[i][j]=Bl;
@@ -389,6 +389,23 @@ class jeu extends JFrame{
 	
 	}	
 		
+	}
+	
+	public void remplissage_grid()
+	{
+		{for (int i=0;i<x;i++)
+		{
+			for (int j=0;j<x;j++)
+			{
+				if (grid[i][j]!=-1)
+				{
+					//appel methode de chedhly 
+					replace_valeurs(TableauVoisin);
+					
+					
+				}
+			}
+	}
 	}
 	
 	public void initial_Label()
