@@ -13,7 +13,7 @@ public class scores {
 		String chemin = System.getProperty("user.dir"); // Chemin du projet
 		try 
 		{
-			FileWriter f = new FileWriter(chemin+"scores.txt", true);
+			FileWriter f = new FileWriter(chemin+"/scores.txt", true);
 			f.write(pseudo+" "+Integer.toString(score)+"\n"); // Ecriture dans le fichier selon le format utilisé
 			f.close();
 		
@@ -28,14 +28,14 @@ public class scores {
 		String ligne;
 		List<String> list = new ArrayList<String>();
 		String chemin = System.getProperty("user.dir"); //chemin du projet
-		FileReader F = new FileReader(chemin+"scores.txt");
+		FileReader F = new FileReader(chemin+"/scores.txt");
 		BufferedReader in = new BufferedReader (F); // Lire le fichier
 		while((ligne=in.readLine())!=null) // Lecture ligne par ligne
 		{
 			list.add(ligne); // Mettre toutes les lignes dans une liste
 		}
 		in.close(); // Fermer le fichier
-		String [] resultat= (String []) list.toArray();
+		String [] resultat=list.toArray(new String[list.size()]);
 		return resultat;
 	}
 	public static String[] scoremax () throws IOException
@@ -50,12 +50,12 @@ public class scores {
 			ch=tabscores[i].split(" ");
 			pseudo.add(ch[0]);
 			score.add(Integer.parseInt(ch[1]));
-			if (i<=5)
+			if (i<5)
 			{
 				resultat[i]=tabscores[i];
 			}
 		}
-		for(int j = 0;j<=5;j++)
+		for(int j = 0;j<5;j++)
 		{
 			int max = Collections.max(score);
 			int x=score.indexOf(max);
@@ -65,4 +65,14 @@ public class scores {
 		}
 		return resultat;
 	}
+	 public static void main(String [] args) throws IOException
+	 {
+		 int i = 12 ;
+		 scores.remplirfichier("abc", i);
+		 String [] tab = scores.scoremax();
+		 for (i=0 ;i<tab.length;i++)
+		 {
+			 System.out.println(tab[i]);
+		 }
+	 }
 }
