@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
 import Package2.matrices;
+import Package2.scores;
 
 public class interface1  {
 	public static void main(String[] args)
@@ -125,7 +126,23 @@ JButton button1;
 class highscore extends JFrame 
 {JLabel l3;
 	public highscore()
+	{try {
+		String[] TabS=scores.scoremax () ;
+		JLabel Label1=new JLabel(TabS[0]);
+		JLabel Label2=new JLabel(TabS[1]);
+		JLabel Label3=new JLabel(TabS[2]);
+		JLabel Label4=new JLabel(TabS[3]);
+		JLabel Label5=new JLabel(TabS[0]);
+		add(Label1);
+		add(Label2);
+		add(Label3);
+		add(Label4);
+		add(Label5);
+	}
+	catch(Exception e)
 	{
+		e.printStackTrace();
+	}
 	l3=new JLabel("highscore");
 	setVisible(true);
 	setSize(400,400);
@@ -234,7 +251,7 @@ class jeu extends JFrame{
 				    				}
 				    				
 				    				ImageIcon image = new ImageIcon(myPicture);
-				    				JLabel imageLabel= new JLabel(image);
+				    				
 				                	
 				                	Bl.setIcon(image);
 				                	
@@ -288,7 +305,7 @@ class jeu extends JFrame{
 						   null, 
 						   "nom"); 
 			
-				
+				scores.remplirfichier(s,nb_coups);
 				      
 				      if (JOptionPane.showConfirmDialog(null, "do you want to start an other game ?", "WARNING",
 				    	        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -327,7 +344,7 @@ class jeu extends JFrame{
 							   null, 
 							   "nom"); 
 				
-					
+					scores.remplirfichier(s,nb_coups);
 					      
 					      if (JOptionPane.showConfirmDialog(null, "do you want to start an other game ?", "WARNING",
 					    	        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
