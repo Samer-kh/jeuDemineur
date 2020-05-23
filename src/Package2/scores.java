@@ -65,14 +65,4 @@ public class scores {
 		}
 		return resultat;
 	}
-	 public static void main(String [] args) throws IOException
-	 {
-		 int i = 12 ;
-		 scores.remplirfichier("abc", i);
-		 String [] tab = scores.scoremax();
-		 for (i=0 ;i<tab.length;i++)
-		 {
-			 System.out.println(tab[i]);
-		 }
-	 }
 }
