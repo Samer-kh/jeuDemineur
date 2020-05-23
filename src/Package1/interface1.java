@@ -1,5 +1,6 @@
 package Package1;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,10 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-
-
 
 import Package2.matrices;
 
@@ -88,7 +87,7 @@ JButton button1;
 	{ if (b11.isSelected())
 		{this.dispose();
 		JButton[][] Tab;
-		jeu jeu =new jeu(10,10,10,10,new JButton[10][10], new JLabel[10][10]);
+		jeu jeu =new jeu(10,10,10,10,new JButton[10][10], new JLabel[10][10],0);
 		jeu.placer_mines();
 		jeu.initial_buttons(this);
 		jeu.placer_label();
@@ -97,7 +96,7 @@ JButton button1;
 		jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}					
 	else if (b12.isSelected())
 		{this.dispose();
-		jeu jeu =new jeu(15,15,32,32,new JButton[15][15], new JLabel[15][15]);
+		jeu jeu =new jeu(15,15,32,32,new JButton[15][15], new JLabel[15][15],0);
 		jeu.placer_mines();
 		jeu.placer_label();
 		jeu.initial_buttons(jeu);
@@ -106,7 +105,7 @@ JButton button1;
 		jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 	else if (b13.isSelected())
 		{this.dispose();
-		jeu jeu =new jeu(20,20,64,64,new JButton[20][20], new JLabel[20][20]);
+		jeu jeu =new jeu(20,20,64,64,new JButton[20][20], new JLabel[20][20],0);
 		jeu.placer_mines();
 		jeu.placer_label();
 		jeu.initial_buttons(jeu);
@@ -151,14 +150,14 @@ class jeu extends JFrame{
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	public jeu (int x,int y ,int z,int f,JButton[][] Tableau,JLabel[][] LabTab )
+	public jeu (int x,int y ,int z,int f,JButton[][] Tableau,JLabel[][] LabTab,int nbCoups )
 	{
 		this.x=x;
 		this.y=y;
 		this.nb_mines= z;
 		this.nb_drapeau=f;
 		
-		nb_coups=0;
+		nb_coups=nbCoups;
 		
 		int i,j;
 		grid=new int[x][y];
@@ -191,33 +190,102 @@ class jeu extends JFrame{
 				
 				Gp.add(Bl);
 				Tab[i][j]=Bl;
-				Bl.addActionListener(ae->
+				Bl.addActionListener(ae ->
+				{if(grid[o][p]==-1)
 				{
 				Tab[o][p]=null;
-				eleminer_button(o,p);
+				//eleminer_button(o,p);
+				win_lost();
 				this.dispose();
+				jeu jeu=new jeu(x,y,0,0,Tab,TabLabel,nb_coups);
+				jeu.setExtendedState(jeu.MAXIMIZED_BOTH);
+				jeu.insert_buttons(jeu);
+				String F="your score is "+nb_coups;
+				JOptionPane.showMessageDialog(this, "you just lost the game "+"\n"+ F);
+				
+				
+				BufferedImage myPicture=null;
+				
+				try {
+				    myPicture = ImageIO.read(new File("img\\o.png"));
+				} catch (IOException e) {
+				    e.printStackTrace();
+				}
+				
+				ImageIcon image = new ImageIcon(myPicture);
+				
+				
+				
+				String s = (String)JOptionPane.showInputDialog(
+						   this,"Donnez votre nom afin d'enregister votre score",
+						   "le titre",
+						   JOptionPane.QUESTION_MESSAGE,
+						   image,
+						   null, // c'est ouvert !!!
+						   "nom"); // valeur initiale
+			
+				/*JOptionPane d = new JOptionPane();
+				int retour = d.showConfirmDialog(this, "commencez unz autre partie ?", 
+				      "le titre", JOptionPane.YES_NO_OPTION);*/
+				      
+				      if (JOptionPane.showConfirmDialog(null, "do you want to start an other game ?", "WARNING",
+				    	        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				    	  Frame[] frames = Frame.getFrames();
+				    	  for (int k=0;k<frames.length;k++)
+				    	  {
+				    		 frames[k].dispose(); 
+				    		  
+				    	  }
+				    	    fenétre f=new fenétre();
+				    	} else {
+				    	    System.exit(0);
+				    	}
+				}
+				else
+				{
+				nb_coups++
+				;
+				Tab[o][p]=null;
 				 if (x==10)
-					{this.dispose();
-					close(this);
-					jeu jeu =new jeu(10,10,10,10,Tab,TabLabel);
+					{Frame[] frames = Frame.getFrames();
+			    	  for (int k=0;k<frames.length;k++)
+			    	  {
+			    		 frames[k].dispose(); 
+			    		  
+			    	  }
+					
+					jeu jeu =new jeu(10,10,10,10,Tab,TabLabel,nb_coups+1);
 					
 					jeu.insert_buttons(jeu);
+					jeu.win_lost();
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}					
 				else if (x==15)
-					{this.dispose();
+					{Frame[] frames = Frame.getFrames();
+			    	  for (int k=0;k<frames.length;k++)
+			    	  {
+			    		 frames[k].dispose(); 
+			    		  
+			    	  }
 					 
-					jeu jeu =new jeu(15,15,32,32,Tab,TabLabel);
+					jeu jeu =new jeu(15,15,32,32,Tab,TabLabel,nb_coups+1);
 					
 					jeu.insert_buttons(jeu);
+					jeu.win_lost();
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 				else if (x==20)
-					{this.dispose();
-					jeu jeu =new jeu(20,20,64,64,Tab,TabLabel);
+					{Frame[] frames = Frame.getFrames();
+			    	  for (int k=0;k<frames.length;k++)
+			    	  {
+			    		 frames[k].dispose(); 
+			    		  
+			    	  }
+					jeu jeu =new jeu(20,20,64,64,Tab,TabLabel,nb_coups+1);
 					
 					jeu.insert_buttons(jeu);
+					jeu.win_lost();
 					jeu.setExtendedState(jeu.MAXIMIZED_BOTH);}
 					
-				}
+				}}
 						);	
 			
 			}}
@@ -327,10 +395,11 @@ class jeu extends JFrame{
 			TabLabel[i][j]=LB;
 	}}}
 	
-	public void eleminer_button(int i,int j)
+	/*public void eleminer_button(int i,int j)
 	{	
-	if (grid[i-1][j-1]==0)
+	if (grid[i][j]==0)
 	{
+		Tab[i][j]=null;
 		if (grid[i-1][j-1]==0)
 		{
 			Tab[i-1][j-1]=null;
@@ -380,7 +449,7 @@ class jeu extends JFrame{
 			eleminer_button(i+1,j+1);			
 		}
 	}	
-	}
+	}*/
 	
 	public static void close(JFrame Frame)
 	{
@@ -388,7 +457,25 @@ class jeu extends JFrame{
 	}
 	
 	
+	public void win_lost()
+	{
+		for (int i=0;i<x;i++)
+		{
+			for(int j=0;j<y;j++)
+			{
+				if ((grid[i][j]==-1))
+				{
+					
+					Tab[i][j]=null;
+				}
+				
+			}
+			}
+		}
 	}
+	
+	
+	
 	
 
 	
