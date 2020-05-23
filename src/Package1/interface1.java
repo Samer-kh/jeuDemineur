@@ -2,6 +2,8 @@ package Package1;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -98,7 +100,7 @@ JButton button1;
 		{this.dispose();
 		jeu jeu =new jeu(15,15,32,32,new JButton[15][15], new JLabel[15][15],0);
 		jeu.placer_mines();
-		jeu.placer_label();
+		jeu.placer_label1();
 		jeu.initial_buttons(jeu);
 		jeu.insert_buttons(jeu);
 		jeu.remplissage_grid();
@@ -107,7 +109,7 @@ JButton button1;
 		{this.dispose();
 		jeu jeu =new jeu(20,20,64,64,new JButton[20][20], new JLabel[20][20],0);
 		jeu.placer_mines();
-		jeu.placer_label();
+		jeu.placer_label2();
 		jeu.initial_buttons(jeu);
 		jeu.insert_buttons(jeu);
 		jeu.remplissage_grid();
@@ -190,6 +192,62 @@ class jeu extends JFrame{
 				
 				Gp.add(Bl);
 				Tab[i][j]=Bl;
+				if((x==10)||(x==15))
+				{
+				 Bl.addMouseListener(new MouseAdapter() {
+			            public void mouseClicked(MouseEvent e) {
+			                if (e.getButton() == 3) { // if right click
+			                	BufferedImage myPicture=null;
+			    				
+			    				try {
+			    				    myPicture = ImageIO.read(new File("img\\flag.png"));
+			    				} catch (IOException e1) {
+			    				    e1.printStackTrace();
+			    				}
+			    				
+			    				ImageIcon image = new ImageIcon(myPicture);
+			    				JLabel imageLabel= new JLabel(image);
+			                	
+			                	Bl.setIcon(image);
+			                	
+			                	Bl.getModel().setPressed(false);
+			                    // button.setEnabled(true);
+			                } else {
+			                	Bl.setText("X");
+			                	Bl.getModel().setPressed(true);
+			                    // button.setEnabled(false);
+			                }
+			            }
+			        });
+				}
+				else
+				{
+					 Bl.addMouseListener(new MouseAdapter() {
+				            public void mouseClicked(MouseEvent e) {
+				                if (e.getButton() == 3) { // if right click
+				                	BufferedImage myPicture=null;
+				    				
+				    				try {
+				    				    myPicture = ImageIO.read(new File("img\\flag1.png"));
+				    				} catch (IOException e1) {
+				    				    e1.printStackTrace();
+				    				}
+				    				
+				    				ImageIcon image = new ImageIcon(myPicture);
+				    				JLabel imageLabel= new JLabel(image);
+				                	
+				                	Bl.setIcon(image);
+				                	
+				                	Bl.getModel().setPressed(false);
+				                    // button.setEnabled(true);
+				                } else {
+				                	Bl.setText("X");
+				                	Bl.getModel().setPressed(true);
+				                    // button.setEnabled(false);
+				                }
+				            }
+				        });
+				}
 				Bl.addActionListener(ae ->
 				{if(grid[o][p]==-1)
 				{
@@ -197,6 +255,12 @@ class jeu extends JFrame{
 				//eleminer_button(o,p);
 				win_lost();
 				this.dispose();
+				Frame[] frames = Frame.getFrames();
+		    	  for (int h=0;h<frames.length;h++)
+		    	  {
+		    		 frames[h].dispose(); 
+		    		  
+		    	  }
 				jeu jeu=new jeu(x,y,0,0,Tab,TabLabel,nb_coups);
 				jeu.setExtendedState(jeu.MAXIMIZED_BOTH);
 				jeu.insert_buttons(jeu);
@@ -221,25 +285,65 @@ class jeu extends JFrame{
 						   "le titre",
 						   JOptionPane.QUESTION_MESSAGE,
 						   image,
-						   null, // c'est ouvert !!!
-						   "nom"); // valeur initiale
+						   null, 
+						   "nom"); 
 			
-				/*JOptionPane d = new JOptionPane();
-				int retour = d.showConfirmDialog(this, "commencez unz autre partie ?", 
-				      "le titre", JOptionPane.YES_NO_OPTION);*/
+				
 				      
 				      if (JOptionPane.showConfirmDialog(null, "do you want to start an other game ?", "WARNING",
 				    	        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-				    	  Frame[] frames = Frame.getFrames();
-				    	  for (int k=0;k<frames.length;k++)
+				    	  Frame[] frames1 = Frame.getFrames();
+				    	  for (int k=0;k<frames1.length;k++)
 				    	  {
-				    		 frames[k].dispose(); 
+				    		 frames1[k].dispose(); 
 				    		  
 				    	  }
 				    	    fenétre f=new fenétre();
 				    	} else {
 				    	    System.exit(0);
 				    	}
+				}
+				else if (win())
+				{	String F="your score is "+nb_coups;
+					JOptionPane.showMessageDialog(this, "you have just won the game "+"\n"+ F);
+					
+					BufferedImage myPicture=null;
+					
+					try {
+					    myPicture = ImageIO.read(new File("img\\o.png"));
+					} catch (IOException e) {
+					    e.printStackTrace();
+					}
+					
+					ImageIcon image = new ImageIcon(myPicture);
+					
+					
+					
+					String s = (String)JOptionPane.showInputDialog(
+							   this,"Donnez votre nom afin d'enregister votre score",
+							   "le titre",
+							   JOptionPane.QUESTION_MESSAGE,
+							   image,
+							   null, 
+							   "nom"); 
+				
+					
+					      
+					      if (JOptionPane.showConfirmDialog(null, "do you want to start an other game ?", "WARNING",
+					    	        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					    	  Frame[] frames1 = Frame.getFrames();
+					    	  for (int k=0;k<frames1.length;k++)
+					    	  {
+					    		 frames1[k].dispose(); 
+					    		  
+					    	  }
+					    	    fenétre f=new fenétre();
+					    	} else {
+					    	    System.exit(0);
+					    	}
+					
+					
+					
 				}
 				else
 				{
@@ -363,6 +467,42 @@ class jeu extends JFrame{
 			
 	}
 	
+	public void placer_label1()
+	{
+		int i,j;
+		for (i=0;i<x;i++)
+		{for (j=0;j<y;j++)
+		{ if (grid[i][j]==-1)
+		{
+			JLabel image = Placer_image_mines("img\\mine1.png");
+			TabLabel[i][j]=image;
+		}
+		else
+			{JLabel Label=new JLabel("Rien");
+			TabLabel[i][j]=Label;}
+		}
+		}
+			
+	}
+	
+	public void placer_label2()
+	{
+		int i,j;
+		for (i=0;i<x;i++)
+		{for (j=0;j<y;j++)
+		{ if (grid[i][j]==-1)
+		{
+			JLabel image = Placer_image_mines("img\\mine2.png");
+			TabLabel[i][j]=image;
+		}
+		else
+			{JLabel Label=new JLabel("Rien");
+			TabLabel[i][j]=Label;}
+		}
+		}
+			
+	}
+	
 	
 	
 	
@@ -472,6 +612,30 @@ class jeu extends JFrame{
 			}
 			}
 		}
+	
+	public boolean win()
+	{	int k=0;
+		for(int i=0;i<x;i++)
+		{
+			for(int j=0;j<y;j++)
+			{
+				if (Tab[i][j]!=null)
+				{
+					k++;
+				}
+			}
+		}
+		if (k==nb_mines)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
 	}
 	
 	
