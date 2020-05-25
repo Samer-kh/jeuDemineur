@@ -61,6 +61,7 @@ public class scores {
 			resultat[j]=pseudo.get(x)+" "+Integer.toString(score.get(x));
 			score.remove(x);
 			pseudo.remove(x);
+			
 		}
 		return resultat;
 	}

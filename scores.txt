@@ -1,8 +1,5 @@
-chedly 11
-samer 13
-ahmed 5
-ali 3
-mohamed 1
-abc 12
-abc 12
-abc 12
+aaa 0
+bbb 0
+ccc 0
+ddd 0
+eee 0
