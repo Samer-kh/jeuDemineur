@@ -16,7 +16,6 @@ public class scores {
 			FileWriter f = new FileWriter(chemin+"/scores.txt", true);
 			f.write(pseudo+" "+Integer.toString(score)+"\n"); // Ecriture dans le fichier selon le format utilisé
 			f.close();
-		
 		}
 		catch(IOException e)
 		{
